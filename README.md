@@ -8,7 +8,8 @@ successful empty response in a test enviornment.  No actual HTTP requests will b
 
 ```dart
 class MyHttpOverrides extends HttpOverrides {
-  HttpClient() createClient(_) {
+  @override
+  HttpClient() createHttpClient(_) {
     return new HttpTestClient((request, client) {
         // the default response is an empty 200.
         return new HttpTestResponse();
@@ -17,10 +18,12 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void main() {
-  // overrides all HttpClients.
-  HttpOverrides.global = new MyHttpOverrides();
-
   group('HttpClient', () {
+    setUp(() {
+      // overrides all HttpClients.
+      HttpOverrides.global = new MyHttpOverrides();
+    });
+
     test('returns OK', () async {
       // this is actually an instance of [HttpTestClient].
       final client = new HttpClient();
