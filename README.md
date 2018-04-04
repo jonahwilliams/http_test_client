@@ -9,7 +9,7 @@ successful empty response in a test enviornment.  No actual HTTP requests will b
 ```dart
 class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient() createHttpClient(_) {
+  HttpClient createHttpClient(_) {
     return new HttpTestClient((request, client) {
         // the default response is an empty 200.
         return new HttpTestResponse();
